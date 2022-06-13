@@ -8,9 +8,9 @@ void IRAM_ATTR resetModule() {
   esp_restart();
 }
 #include <TridentTD_LineNotify.h>
-#define SSID        "iPhone ของ Phimbun"   // WiFi name
-#define PASSWORD    "00000000"   // PASSWORD
-#define LINE_TOKEN  "YMkys3hVbE25kbYbYuMo6aKQ5IG76Cvk1FW8j9PAn5Z" // TOKEN
+#define SSID        "xxxxxxx"   // WiFi name
+#define PASSWORD    "xxxxxxx"   // PASSWORD
+#define LINE_TOKEN  "xxxxxxx" // TOKEN
 
 // Pin definition for CAMERA_MODEL_AI_THINKER
 #define PWDN_GPIO_NUM     32
@@ -33,19 +33,19 @@ void IRAM_ATTR resetModule() {
 int check = 0;
 const int Led_Flash = 4;
 const int Led_run = 13;
-int PIR_Sensor = 12;
+
 const int door = 15;
 boolean startTimer = false;
 unsigned long time_now = 0;
 int time_capture = 0;
-int buttonState;
+int doorstate;
 void setup() {
 
   Serial.begin(115200);
   while (!Serial) {
     ;
   }
-   pinMode(door, INPUT);
+  pinMode(door, INPUT);
   pinMode(Led_Flash, OUTPUT);
   pinMode(Led_run, OUTPUT);
   WiFi.begin(SSID, PASSWORD);
@@ -107,10 +107,10 @@ void setup() {
   }
 }
 void loop() {
-  buttonState = digitalRead(door);
+  doorstate = digitalRead(door);
   timerWrite(timer, 0); //reset timer (feed watchdog)
   long tme = millis();
-  if (buttonState == LOW ) {
+  if (doorstate == LOW ) {
     if(check==1){
      Serial.println("OK");
      Camera_capture();
@@ -122,9 +122,6 @@ void loop() {
     else{
       Serial.println("OK");
     }
-  }
-  else{
-    check = 0;  
   }
   delay(1000);
 }
